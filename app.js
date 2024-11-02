@@ -66,6 +66,7 @@ function apenasLetras() {
                 });
 
                 console.log(palavraCompleta); 
+                enviarLinha(1);
             }
         });
             const nextInput = inputs[index + 1];
