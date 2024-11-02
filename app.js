@@ -17,15 +17,15 @@ function selecionarBloco(num, lin) {
 function apenasLetras() {
     const inputs = document.querySelectorAll('.letra');
 
-    // Não permite enviar algo além de letras no input
-    inputs.forEach(input => {
+    inputs.forEach((input, index) => {
+        // Não permite inserir algo além de letras no input
         input.addEventListener('keypress', function (e) {
             if (!/^[a-zA-Z]$/.test(e.key)) {
                 e.preventDefault();
             }
         });
 
-        // Caso não seja vazio e seja um número muda a cor da letra
+        // Caso não seja vazio e seja um número, muda a cor da letra
         input.addEventListener('input', function () {
             if (!isNaN(this.value) && this.value.length > 0) {
                 this.style.backgroundColor = '#5C4D8B'; 
@@ -34,12 +34,45 @@ function apenasLetras() {
                 this.style.backgroundColor = 'transparent'; 
                 this.style.color = '#FFFFFF'; 
             }
+
+            // Passa para o próximo input automaticamente se uma letra for digitada
+            if (this.value.length > 0) {
+                const nextInput = inputs[index + 1];
+                const currentBlock = this.parentElement; 
+                const nextBlock = nextInput ? nextInput.parentElement : null; 
+
+                if (currentBlock.classList.contains('bloco_selecionado')) {
+                    currentBlock.classList.remove('bloco_selecionado');
+                }
+                if (nextBlock) {
+                    nextBlock.classList.add('bloco_selecionado');
+                    nextInput.focus(); 
+                }
+            }
         });
 
-        // O input selecionado ganha foco
-        input.addEventListener('focus', function () {
-            this.setSelectionRange(0, 1); 
+        // Detecta quando a tecla Enter é pressionada
+        input.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault(); // Impede o comportamento padrão do Enter
+
+                // Coleta todos os valores dos inputs na mesma linha
+                const linha = this.closest('.linha');
+                const letras = linha.querySelectorAll('.letra');
+                let palavraCompleta = '';
+
+                letras.forEach(letra => {
+                    palavraCompleta += letra.value; // Concatena cada letra
+                });
+
+                console.log(palavraCompleta); 
+            }
         });
+            const nextInput = inputs[index + 1];
+            if (nextInput) {
+                nextInput.focus(); // Move para o próximo input
+            }
+        ;
     });
 }
 
