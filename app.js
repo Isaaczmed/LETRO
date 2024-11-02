@@ -3,19 +3,18 @@ function selecionarBloco(num, lin) {
     let linhaSelecionada = document.getElementById("linha" + lin);
 
     // Verifica se essa linha é a atualmente selecionada
-    if (linhaSelecionada.classList.contains("linha_selecionada")) {
-        // Obtém todos os blocos da linha selecionada
+    if (linhaSelecionada && linhaSelecionada.classList.contains("linha_selecionada")) {
+        // Obtém todos os blocos dentro da linha selecionada
         let blocosNaLinha = linhaSelecionada.getElementsByClassName("bloco");
 
         // Remove a classe 'bloco_selecionado' de todos os blocos nessa linha
-        for (let i = 0; i < blocosNaLinha.length; i++) {
-            blocosNaLinha[i].classList.remove("bloco_selecionado");
-        }
+        Array.from(blocosNaLinha).forEach(bloco => {
+            bloco.classList.remove("bloco_selecionado");
+        });
 
-        // Adiciona a classe 'bloco_selecionado' ao bloco específico dentro da linha
-        let blocoSelecionado = linhaSelecionada.querySelector(`#bloco${num}`);
-        if (blocoSelecionado) {
-            blocoSelecionado.classList.add("bloco_selecionado");
+        // Adiciona a classe 'bloco_selecionado' ao bloco específico pelo índice
+        if (blocosNaLinha[num - 1]) {
+            blocosNaLinha[num - 1].classList.add("bloco_selecionado");
         }
     }
 }

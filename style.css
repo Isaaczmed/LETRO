@@ -63,20 +63,20 @@ body {
     border-bottom: 10px solid #120f1b;
   }
 
-  /* Letra no input */
-  .letra {
+ /* Letra no input */
+.letra {
     background: transparent; 
     border: none; 
     color: #FFFFFF; 
-    width: 35px; 
-    height: 35px; 
-    font-size: 40px; 
+    width: 38px; 
+    height: 38px; 
+    font-size: 34px; 
     text-align: center; 
     outline: none; 
     caret-color: transparent;
     text-transform: uppercase;
     font-weight: bold;
-    font-family: Verdana;
+    font-family: Verdana, sans-serif;
     cursor: pointer;
 }
 
