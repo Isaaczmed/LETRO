@@ -9,14 +9,14 @@
 <body>
 
   <div id="tabuleiro">
-    <div class="linha linha_selecionada" id="linha1">
-        <div onclick="selecionarBloco(1, 1)" id="bloco1" class="bloco  bloco_enviado">
+    <div class="linha" id="linha1">
+        <div onclick="selecionarBloco(1, 1)" id="bloco1" class="bloco  blocos_selecionados">
             <input class="letra letra_selecionada" type="text" maxlength="1" id="letra1">
         </div>
-        <div onclick="selecionarBloco(2, 1)" id="bloco2" class="bloco bloco_enviado_errado">
+        <div onclick="selecionarBloco(2, 1)" id="bloco2" class="bloco blocos_selecionados">
             <input class="letra" type="text" maxlength="1" id="letra2">
         </div>
-        <div onclick="selecionarBloco(3, 1)" id="bloco3" class="bloco bloco_enviado_certo">
+        <div onclick="selecionarBloco(3, 1)" id="bloco3" class="bloco blocos_selecionados">
             <input class="letra" type="text" maxlength="1" id="letra3">
         </div>
         <div onclick="selecionarBloco(4, 1)" id="bloco4" class="bloco blocos_selecionados">
@@ -27,7 +27,7 @@
         </div>
     </div>
 
-    <div class="linha" id="linha2">
+    <div class="linha linha_selecionada" id="linha2">
         <div onclick="selecionarBloco(1, 2)" id="bloco1" class="bloco">
             <input class="letra" type="text" maxlength="1" id="letra1">
         </div>

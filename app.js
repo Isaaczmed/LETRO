@@ -1,16 +1,22 @@
 function selecionarBloco(num, lin) {
+    // Seleciona a linha correta com base no parâmetro 'lin'
     let linhaSelecionada = document.getElementById("linha" + lin);
+
+    // Verifica se essa linha é a atualmente selecionada
     if (linhaSelecionada.classList.contains("linha_selecionada")) {
-        let blocoSelecionado = document.getElementById("bloco" + num);
+        // Obtém todos os blocos da linha selecionada
         let blocosNaLinha = linhaSelecionada.getElementsByClassName("bloco");
 
-        // Passa por todos os blocos da linha para ver se algum já estava selecionado
+        // Remove a classe 'bloco_selecionado' de todos os blocos nessa linha
         for (let i = 0; i < blocosNaLinha.length; i++) {
-            if (blocosNaLinha[i].classList.contains("bloco_selecionado")) {
-                blocosNaLinha[i].classList.remove("bloco_selecionado");
-            }
+            blocosNaLinha[i].classList.remove("bloco_selecionado");
         }
-        blocoSelecionado.classList.add("bloco_selecionado");
+
+        // Adiciona a classe 'bloco_selecionado' ao bloco específico dentro da linha
+        let blocoSelecionado = linhaSelecionada.querySelector(`#bloco${num}`);
+        if (blocoSelecionado) {
+            blocoSelecionado.classList.add("bloco_selecionado");
+        }
     }
 }
 
@@ -37,16 +43,23 @@ function apenasLetras() {
 
             // Passa para o próximo input automaticamente se uma letra for digitada
             if (this.value.length > 0) {
-                const nextInput = inputs[index + 1];
-                const currentBlock = this.parentElement; 
-                const nextBlock = nextInput ? nextInput.parentElement : null; 
+                const linhaAtual = this.closest('.linha'); // Linha atual
+                const inputsNaLinha = linhaAtual.querySelectorAll('.letra'); // Todos os inputs da linha
+
+                // Encontra o índice atual do input na linha
+                const indexNaLinha = Array.from(inputsNaLinha).indexOf(this);
+                const nextInput = inputsNaLinha[indexNaLinha + 1]; // Próximo input na mesma linha
+
+                // Remove a seleção do bloco atual e adiciona ao próximo bloco
+                const currentBlock = this.parentElement;
+                const nextBlock = nextInput ? nextInput.parentElement : null;
 
                 if (currentBlock.classList.contains('bloco_selecionado')) {
                     currentBlock.classList.remove('bloco_selecionado');
                 }
                 if (nextBlock) {
                     nextBlock.classList.add('bloco_selecionado');
-                    nextInput.focus(); 
+                    nextInput.focus(); // Move o foco para o próximo input na linha atual
                 }
             }
         });
@@ -69,12 +82,43 @@ function apenasLetras() {
                 enviarLinha(1);
             }
         });
-            const nextInput = inputs[index + 1];
-            if (nextInput) {
-                nextInput.focus(); // Move para o próximo input
-            }
-        ;
     });
 }
 
+function linhaSelecionada() {
+    const linhas = document.querySelectorAll('.linha');
+    let linhaSelecionada = null;
+
+    linhas.forEach(linha => {
+        if (linha.classList.contains('linha_selecionada')) {
+            const idLinha = linha.id; // Obtém o ID, ex: "linha1"
+            linhaSelecionada = idLinha.replace('linha', ''); // Remove "linha" e deixa só o número
+        }
+    });
+
+    return(linhaSelecionada);
+}
+
+function atualizarBlocosSelecionados() {
+    // Seleciona todas as divs com a classe 'linha'
+    const linhas = document.querySelectorAll('.linha');
+
+    linhas.forEach(linha => {
+        const blocos = linha.querySelectorAll('.bloco');
+
+        if (linha.classList.contains('linha_selecionada')) {
+            // Adiciona 'blocos_selecionados' aos blocos dentro da linha selecionada
+            blocos.forEach(bloco => {
+                bloco.classList.add('blocos_selecionados');
+            });
+        } else {
+            // Remove 'blocos_selecionados' dos blocos nas linhas não selecionadas
+            blocos.forEach(bloco => {
+                bloco.classList.remove('blocos_selecionados');
+            });
+        }
+    });
+}
+
+atualizarBlocosSelecionados();
 apenasLetras();
