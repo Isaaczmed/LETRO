@@ -1,9 +1,11 @@
+/* Define o padrão inicial para o projeto */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+/* Muda o corpo do projeto */
 body {
     background-color: #5C4D8B; 
     color: #FFFFFF; 
@@ -13,6 +15,7 @@ body {
     display: flex;
   }
 
+/* Div que armazena as outras divs com os blocos e linhas */
 #tabuleiro {
     display: flex;
     flex-direction: column;
@@ -20,11 +23,13 @@ body {
     align-items: center;
   }
   
+  /* Linhas do tabuleiro */
   .linha {
     display: flex;
     gap: 5px;
   }
   
+  /* Bloco do tabuleiro */
   .bloco {
     opacity: 70%;
     background-color: #2d2544;
@@ -40,20 +45,23 @@ body {
     overflow: hidden; 
   }
 
+  /* Muda a cor do bloco quando passa o mouse por cima */
   .bloco:hover {
     background-color: #3f3659;
   }
 
+  /* Coloca a borda e deixa o fundo transparente dos blocos na linha selecionada */
   .blocos_selecionados {
     border: 5px solid #120f1b;
     background-color: #5C4D8B;
   }
 
+  /* Muda a borda ao selecionar um bloco */
   .bloco_selecionado {
-    border: 5px solid #120f1b;
     border-bottom: 10px solid #120f1b;
   }
 
+  /* Letra no input */
   .letra {
     background: transparent; 
     border: none; 
@@ -63,10 +71,14 @@ body {
     font-size: 50px; 
     text-align: center; 
     outline: none; 
-    caret-color: transparent; /* Remove o cursor de inserção */
+    caret-color: transparent;
 }
 
-
+/* Muda a cor ao selecionar uma escrita no input */
+input.letra::selection {
+    background: transparent; 
+    color: #FFFFFF; 
+}
 
 
 
