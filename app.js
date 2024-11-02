@@ -66,18 +66,16 @@ function apenasLetras() {
 
                     console.log(palavraCompleta);
 
-                    // Passa para a próxima linha
-                    const numeroLinhaAtual = parseInt(linha.id.replace('linha', '')); // Ajuste aqui
-                    const proximaLinha = document.getElementById('linha' + (numeroLinhaAtual + 1)); // Obtém a próxima linha
+                    const numeroLinhaAtual = parseInt(linha.id.replace('linha', '')); 
+                    const proximaLinha = document.getElementById('linha' + (numeroLinhaAtual + 1)); 
 
                     if (proximaLinha) {
-                        linha.classList.remove('linha_selecionada'); // Remove da linha atual
-                        proximaLinha.classList.add('linha_selecionada'); // Adiciona à próxima linha
+                        linha.classList.remove('linha_selecionada'); 
+                        proximaLinha.classList.add('linha_selecionada'); 
 
-                        // Atualiza os blocos da nova linha selecionada
                         const blocosNaProximaLinha = proximaLinha.querySelectorAll('.bloco');
                         blocosNaProximaLinha.forEach(bloco => {
-                            bloco.classList.add('blocos_selecionados'); // Adiciona a classe blocos_selecionados
+                            bloco.classList.add('blocos_selecionados'); 
                         });
 
                         // Foca no primeiro input da nova linha
@@ -130,12 +128,12 @@ function atualizarBlocosSelecionados() {
 
 async function carregarPalavras() {
     try {
-        const response = await fetch('./palavras.json'); // Carrega o arquivo JSON
+        const response = await fetch('./palavras.json'); 
         if (!response.ok) {
             throw new Error('Erro ao carregar o JSON');
         }
         const data = await response.json();
-        return data.palavras; // Retorna o array de palavras
+        return data.palavras; 
     } catch (error) {
         console.error('Erro ao carregar o JSON:', error);
     }
@@ -143,24 +141,23 @@ async function carregarPalavras() {
 
 function sortearPalavra(palavras) {
     const indiceAleatorio = Math.floor(Math.random() * palavras.length);
-    return palavras[indiceAleatorio]; // Retorna uma palavra aleatória
+    return palavras[indiceAleatorio]; 
 }
 
-// Função para atualizar e mostrar a palavra sorteada no console
 async function atualizarPalavra() {
-    const palavras = await carregarPalavras(); // Carrega as palavras
-    if (palavras) { // Verifica se as palavras foram carregadas corretamente
-        const palavraSorteada = sortearPalavra(palavras); // Sortear uma palavra
-        console.log('Palavra sorteada:', palavraSorteada); // Mostra no console
+    const palavras = await carregarPalavras();
+    if (palavras) { 
+        const palavraSorteada = sortearPalavra(palavras); 
+        // Palavra aleatória
+        console.log('Palavra sorteada:', palavraSorteada); 
     } else {
         console.error('Não foi possível carregar as palavras.');
     }
 }
 
-// Aguarda o carregamento do DOM
 document.addEventListener('DOMContentLoaded', function() {
     const botaoSortear = document.getElementById('botaoSortear');
-    botaoSortear.addEventListener('click', atualizarPalavra); // Adiciona evento de clique
+    botaoSortear.addEventListener('click', atualizarPalavra); 
 });
 
 atualizarBlocosSelecionados();
