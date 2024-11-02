@@ -43,11 +43,13 @@ body {
     font-weight: bold;
     position: relative; 
     overflow: hidden; 
+    cursor: pointer;
   }
 
   /* Muda a cor do bloco quando passa o mouse por cima */
-  .bloco:hover {
+  .blocos_selecionados:hover {
     background-color: #3f3659;
+    cursor: pointer;
   }
 
   /* Coloca a borda e deixa o fundo transparente dos blocos na linha selecionada */
@@ -66,12 +68,16 @@ body {
     background: transparent; 
     border: none; 
     color: #FFFFFF; 
-    width: 45px; 
-    height: 45px; 
-    font-size: 50px; 
+    width: 40px; 
+    height: 40px; 
+    font-size: 40px; 
     text-align: center; 
     outline: none; 
     caret-color: transparent;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-family: Verdana;
+    cursor: pointer;
 }
 
 /* Muda a cor ao selecionar uma escrita no input */
@@ -80,6 +86,26 @@ input.letra::selection {
     color: #FFFFFF; 
 }
 
+/* Deixa o bloco bloqeuado e muda a cor para o bloco no qual a letra está errada*/
+.bloco_enviado {
+    border: none;
+    background-color: #120f1b;
+    pointer-events: none;
+}
+
+/* Deixa o bloco bloqeuado e muda a cor para o bloco no qual a letra está na posição errada */
+.bloco_enviado_errado {
+    border: none;
+    background-color: #9cb629;
+    pointer-events: none;
+}
+
+/* Deixa o bloco bloqeuado e muda a cor para o bloco no qual a letra está certa */
+.bloco_enviado_certo {
+    border: none;
+    background-color: #0d8b18;
+    pointer-events: none;
+}
 
 
 
