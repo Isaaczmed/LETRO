@@ -128,5 +128,40 @@ function atualizarBlocosSelecionados() {
     });
 }
 
+async function carregarPalavras() {
+    try {
+        const response = await fetch('./palavras.json'); // Carrega o arquivo JSON
+        if (!response.ok) {
+            throw new Error('Erro ao carregar o JSON');
+        }
+        const data = await response.json();
+        return data.palavras; // Retorna o array de palavras
+    } catch (error) {
+        console.error('Erro ao carregar o JSON:', error);
+    }
+}
+
+function sortearPalavra(palavras) {
+    const indiceAleatorio = Math.floor(Math.random() * palavras.length);
+    return palavras[indiceAleatorio]; // Retorna uma palavra aleatória
+}
+
+// Função para atualizar e mostrar a palavra sorteada no console
+async function atualizarPalavra() {
+    const palavras = await carregarPalavras(); // Carrega as palavras
+    if (palavras) { // Verifica se as palavras foram carregadas corretamente
+        const palavraSorteada = sortearPalavra(palavras); // Sortear uma palavra
+        console.log('Palavra sorteada:', palavraSorteada); // Mostra no console
+    } else {
+        console.error('Não foi possível carregar as palavras.');
+    }
+}
+
+// Aguarda o carregamento do DOM
+document.addEventListener('DOMContentLoaded', function() {
+    const botaoSortear = document.getElementById('botaoSortear');
+    botaoSortear.addEventListener('click', atualizarPalavra); // Adiciona evento de clique
+});
+
 atualizarBlocosSelecionados();
 apenasLetras();
