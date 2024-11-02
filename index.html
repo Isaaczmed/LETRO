@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LETRO</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="tabuleiro">
+    <div class="linha linha_selecionada" id="linha1">
+        <div onclick="selecionarBloco(1, 1)" id="bloco1" class="bloco blocos_selecionados"></div>
+        <div onclick="selecionarBloco(2, 1)" id="bloco2" class="bloco blocos_selecionados"></div>
+        <div onclick="selecionarBloco(3, 1)" id="bloco3" class="bloco blocos_selecionados"></div>
+        <div onclick="selecionarBloco(4, 1)" id="bloco4" class="bloco blocos_selecionados"></div>
+        <div onclick="selecionarBloco(5, 1)" id="bloco5" class="bloco blocos_selecionados"></div>
+    </div>
+    <div class="linha" id="linha2">
+        <div onclick="selecionarBloco(5, 2)" id="bloco1" class="bloco"></div>
+        <div onclick="selecionarBloco(5, 2)" id="bloco2" class="bloco"></div>
+        <div onclick="selecionarBloco(5, 2)" id="bloco3" class="bloco"></div>
+        <div onclick="selecionarBloco(5, 2)" id="bloco4" class="bloco"></div>
+        <div onclick="selecionarBloco(5, 2)" id="bloco4" class="bloco"></div>
+    </div>
+    <div class="linha" id="linha3">
+        <div onclick="selecionarBloco(5, 3)" id="bloco1" class="bloco"></div>
+        <div onclick="selecionarBloco(5, 3)" id="bloco2" class="bloco"></div>
+        <div onclick="selecionarBloco(5, 3)" id="bloco3" class="bloco"></div>
+        <div onclick="selecionarBloco(5, 3)" id="bloco4" class="bloco"></div>
+        <div onclick="selecionarBloco(5, 3)" id="bloco5" class="bloco"></div>
+    </div>
+    <div class="linha" id="linha4">
+        <div onclick="selecionarBloco(5, 4)" id="bloco1" class="bloco"></div>
+        <div onclick="selecionarBloco(5, 4)" id="bloco2" class="bloco"></div>
+        <div onclick="selecionarBloco(5, 4)" id="bloco3" class="bloco"></div>
+        <div onclick="selecionarBloco(5, 4)" id="bloco4" class="bloco"></div>
+        <div onclick="selecionarBloco(5, 4)" id="bloco5" class="bloco"></div>
+    </div>
+    <div class="linha" id="linha5">
+        <div onclick="selecionarBloco(5, 5)" id="bloco1" class="bloco"></div>
+        <div onclick="selecionarBloco(5, 5)" id="bloco2" class="bloco"></div>
+        <div onclick="selecionarBloco(5, 5)" id="bloco3" class="bloco"></div>
+        <div onclick="selecionarBloco(5, 5)" id="bloco4" class="bloco"></div>
+        <div onclick="selecionarBloco(5, 5)" id="bloco5" class="bloco"></div>
+    </div>
+    <div class="linha" id="linha6">
+        <div onclick="selecionarBloco(5, 6)" id="bloco1" class="bloco"></div>
+        <div onclick="selecionarBloco(5, 6)" id="bloco2" class="bloco"></div>
+        <div onclick="selecionarBloco(5, 6)" id="bloco3" class="bloco"></div>
+        <div onclick="selecionarBloco(5, 6)" id="bloco4" class="bloco"></div>
+        <div onclick="selecionarBloco(5, 6)" id="bloco5" class="bloco"></div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

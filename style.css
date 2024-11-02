@@ -1,0 +1,81 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #5C4D8B; 
+    color: #FFFFFF; 
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+  }
+
+#tabuleiro {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: center;
+  }
+  
+  .linha {
+    display: flex;
+    gap: 5px;
+  }
+  
+  .bloco {
+    opacity: 70%;
+    background-color: #2d2544;
+    border-radius: 10%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+  }
+
+  .blocos_selecionados {
+    border: 5px solid #120f1b;
+    background-color: #5C4D8B;
+  }
+
+  .bloco_selecionado {
+    border: 5px solid #120f1b;
+    border-bottom: 10px solid #120f1b;
+  }
+
+/* Media Query para telas pequenas */
+@media (max-width: 600px) {
+    .bloco {
+        width: 55px; /* Tamanho ajustado para telas pequenas */
+        height: 55px; /* Tamanho ajustado para telas pequenas */
+    }
+
+    .linha {
+        gap: 3px; /* Espaçamento ajustado entre os blocos */
+    }
+}
+
+/* Media Query para telas médias */
+@media (min-width: 601px) and (max-width: 900px) {
+    .bloco {
+        width: 60px; /* Tamanho ajustado para telas médias */
+        height: 60px; /* Tamanho ajustado para telas médias */
+    }
+
+    .linha {
+        gap: 4px; /* Espaçamento médio entre os blocos */
+    }
+}
+
+/* Media Query para telas grandes */
+@media (min-width: 901px) {
+    .bloco {
+        width: 65px; /* Tamanho padrão para telas grandes */
+        height: 65px; /* Tamanho padrão para telas grandes */
+    }
+}
