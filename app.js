@@ -14,3 +14,16 @@ function selecionarBloco(num, lin) {
         blocoSelecionado.classList.add("bloco_selecionado");
     }
 }
+
+function apenasLetras(){
+    const inputs = document.querySelectorAll('.letra');
+
+    inputs.forEach(input => {
+        input.addEventListener('keypress', function (e) {
+            // Permite apenas letras (a-z, A-Z) e impede números
+            if (!/^[a-zA-Z]$/.test(e.key)) {
+                e.preventDefault();
+            }
+        });
+    });
+}
