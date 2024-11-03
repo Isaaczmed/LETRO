@@ -84,7 +84,7 @@ body {
     pointer-events: none;
 }
 
-.letra_selecionado {
+.letra_selecionada {
     background: transparent; 
     border: none; 
     color: #FFFFFF; 
@@ -127,6 +127,11 @@ input.letra::selection {
     background-color: #0d8b18;
     pointer-events: none;
 }
+
+.bloco_enviado_certo:hover {
+    background-color: #0d8b18;
+}
+
 
 /* Caixa de avisos */
 .aviso {

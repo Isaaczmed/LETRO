@@ -14,11 +14,11 @@ function selecionarBloco(num, lin) {
         }
 
         Array.from(letrasNaLinha).forEach(letra => {
-            letra.classList.remove("letra_selecionado");
+            letra.classList.remove("letra_selecionada");
         });
 
         if (letrasNaLinha[num - 1]) {
-            letrasNaLinha[num - 1].classList.add("letra_selecionado");
+            letrasNaLinha[num - 1].classList.add("letra_selecionada");
         }
 
         const input = linhaSelecionada.querySelector(`#letra${num}`);
@@ -35,11 +35,11 @@ function selecionarLetra(num, lin) {
         let letrasNaLinha = linhaSelecionada.getElementsByClassName("letra");
 
         Array.from(letrasNaLinha).forEach(letra => {
-            letra.classList.remove("letra_selecionado");
+            letra.classList.remove("letra_selecionada");
         });
 
         if (letrasNaLinha[num - 1]) {
-            letrasNaLinha[num - 1].classList.add("letra_selecionado");
+            letrasNaLinha[num - 1].classList.add("letra_selecionada");
         }
     }
 }
@@ -350,7 +350,31 @@ const acentos = {
     n: ['n', 'ñ']
 };
 
-let palavraSorteada = atualizarPalavra();
+async function carregarPalavrasSorteadas() {
+    try {
+        const response = await fetch('./escolhidas.json');
+        if (!response.ok) {
+            throw new Error('Erro ao carregar o JSON');
+        }
+        const data = await response.json();
+        palavrasValidas = data.palavras.map(p => p.toLowerCase()); 
+        return palavrasValidas;
+    } catch (error) {
+        console.error('Erro ao carregar o JSON:', error);
+    }
+}
+
+async function atualizarPalavraSorteada() {
+    const palavrasSorteadas = await carregarPalavrasSorteadas();
+    if (palavrasSorteadas) { 
+        palavraSorteada = sortearPalavra(palavrasSorteadas); 
+        console.log('Palavra sorteada:', palavraSorteada); 
+    } else {
+        console.error('Não foi possível carregar as palavras.');
+    }
+}
+
+let palavraSorteada = atualizarPalavraSorteada();
 document.addEventListener('DOMContentLoaded', async function() {
     await carregarPalavras();
     atualizarBlocosSelecionados();
