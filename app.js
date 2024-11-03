@@ -350,11 +350,6 @@ const acentos = {
     n: ['n', 'ñ']
 };
 
-document.addEventListener('DOMContentLoaded', function() {
-    const botaoSortear = document.getElementById('botaoSortear');
-    botaoSortear.addEventListener('click', atualizarPalavra); 
-});
-
 let palavraSorteada = atualizarPalavra();
 document.addEventListener('DOMContentLoaded', async function() {
     await carregarPalavras();
