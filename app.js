@@ -76,6 +76,8 @@ function apenasLetras() {
                         const blocosNaProximaLinha = proximaLinha.querySelectorAll('.bloco');
                         blocosNaProximaLinha.forEach(bloco => {
                             bloco.classList.add('blocos_selecionados'); 
+                            
+                            atualizarBlocosSelecionados();
                         });
 
                         // Foca no primeiro input da nova linha
