@@ -17,7 +17,7 @@ function selecionarBloco(num, lin) {
 function apenasLetras() {
     const inputs = document.querySelectorAll('.letra');
 
-    inputs.forEach((input, index) => {
+    inputs.forEach((input) => {
         input.addEventListener('keypress', function (e) {
             if (!/^[a-zA-Z]$/.test(e.key)) {
                 e.preventDefault();
@@ -46,7 +46,7 @@ function apenasLetras() {
 
         input.addEventListener('keydown', function (e) {
             if (e.key === 'Enter') {
-                e.preventDefault(); 
+                e.preventDefault();
 
                 const linha = this.closest('.linha');
                 const letras = linha.querySelectorAll('.letra');
@@ -55,45 +55,96 @@ function apenasLetras() {
                 let todosPreenchidos = true;
                 letras.forEach(letra => {
                     if (letra.value.length === 0) {
-                        todosPreenchidos = false; 
+                        todosPreenchidos = false;
                     }
                 });
 
                 if (todosPreenchidos) {
                     letras.forEach(letra => {
-                        palavraCompleta += letra.value; 
+                        palavraCompleta += letra.value.toLowerCase();
                     });
 
-                    console.log(palavraCompleta);
+                    // Verifica se a palavra completa existe no banco de palavras
+                    if (palavrasValidas.includes(palavraCompleta)) {
+                        console.log(`Palavra válida: ${palavraCompleta}`);
+                        
+                        // Envia a palavra e avalia
+                        avaliarPalavra(letras, palavraSorteada);
 
-                    const numeroLinhaAtual = parseInt(linha.id.replace('linha', '')); 
-                    const proximaLinha = document.getElementById('linha' + (numeroLinhaAtual + 1)); 
+                        const numeroLinhaAtual = parseInt(linha.id.replace('linha', ''));
+                        const proximaLinha = document.getElementById('linha' + (numeroLinhaAtual + 1));
 
-                    if (proximaLinha) {
-                        linha.classList.remove('linha_selecionada'); 
-                        proximaLinha.classList.add('linha_selecionada'); 
+                        if (proximaLinha) {
+                            linha.classList.remove('linha_selecionada');
+                            proximaLinha.classList.add('linha_selecionada');
 
-                        const blocosNaProximaLinha = proximaLinha.querySelectorAll('.bloco');
-                        blocosNaProximaLinha.forEach(bloco => {
-                            bloco.classList.add('blocos_selecionados'); 
-                            
+                            const blocosNaProximaLinha = proximaLinha.querySelectorAll('.bloco');
+                            blocosNaProximaLinha.forEach(bloco => {
+                                bloco.classList.add('blocos_selecionados');
+                                atualizarBlocosSelecionados();
+                            });
+
+                            const blocosNaLinha = document.getElementById('linha' + numeroLinhaAtual).querySelectorAll('.bloco');
+                            blocosNaLinha.forEach(bloco => {
+                                bloco.classList.add('bloco_enviado');
+                                atualizarBlocosSelecionados();
+                            });
+
+                            const primeiroInput = proximaLinha.querySelector('.letra');
+                            if (primeiroInput) {
+                                primeiroInput.focus();
+                            }
+                        } else {
+                            linha.classList.remove('linha_selecionada');
                             atualizarBlocosSelecionados();
-                        });
-
-                        // Foca no primeiro input da nova linha
-                        const primeiroInput = proximaLinha.querySelector('.letra');
-                        if (primeiroInput) {
-                            primeiroInput.focus(); 
                         }
                     } else {
-                        linha.classList.remove('linha_selecionada'); 
-                        atualizarBlocosSelecionados();
+                        console.log(`Palavra inválida: ${palavraCompleta}`);
                     }
                 } else {
                     alert('Preencha todas as letras antes de enviar.');
                 }
             }
         });
+    });
+}
+
+function avaliarPalavra(letras, palavraSorteada) {
+    // Normaliza a palavra sorteada para remover acentuações e define arrays auxiliares
+    const palavraNormalizada = palavraSorteada.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+    const palavraArray = palavraSorteada.split('');
+    const letrasUsadas = Array(palavraArray.length).fill(false);  // Para rastrear letras usadas na palavra sorteada
+
+    letras.forEach((letraInput, index) => {
+        const letra = letraInput.value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+        const bloco = letraInput.parentElement;
+
+        // Verifica se a letra está na mesma posição
+        if (letra === palavraNormalizada[index]) {
+            bloco.classList.add('bloco_enviado_certo');
+            letraInput.value = palavraArray[index];  // Atualiza para a letra acentuada correta
+            letrasUsadas[index] = true;  // Marca essa letra como usada
+        }
+    });
+
+    letras.forEach((letraInput, index) => {
+        const letra = letraInput.value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+        const bloco = letraInput.parentElement;
+
+        // Se a letra já está marcada como correta, pula para a próxima
+        if (bloco.classList.contains('bloco_enviado_certo')) return;
+
+        // Verifica se a letra existe na palavra, mas em outra posição
+        const posicaoAlternativa = palavraNormalizada.indexOf(letra);
+
+        // Somente adiciona 'bloco_enviado_errado' se a letra está em outra posição e não foi usada ainda
+        if (posicaoAlternativa !== -1 && letrasUsadas[posicaoAlternativa] === false) {
+            bloco.classList.add('bloco_enviado_errado');
+            letraInput.value = palavraArray[posicaoAlternativa];  // Atualiza para a letra acentuada correta
+            letrasUsadas[posicaoAlternativa] = true;  // Marca essa posição como usada
+        } else {
+            bloco.classList.add('bloco_enviado');
+        }
     });
 }
 
@@ -129,14 +180,17 @@ function atualizarBlocosSelecionados() {
     });
 }
 
+let palavrasValidas = []; // Armazena as palavras carregadas do JSON
+
 async function carregarPalavras() {
     try {
-        const response = await fetch('./palavras.json'); 
+        const response = await fetch('./palavras.json');
         if (!response.ok) {
             throw new Error('Erro ao carregar o JSON');
         }
         const data = await response.json();
-        return data.palavras; 
+        palavrasValidas = data.palavras.map(p => p.toLowerCase()); // Armazena todas as palavras em minúsculas
+        return palavrasValidas;
     } catch (error) {
         console.error('Erro ao carregar o JSON:', error);
     }
@@ -150,8 +204,7 @@ function sortearPalavra(palavras) {
 async function atualizarPalavra() {
     const palavras = await carregarPalavras();
     if (palavras) { 
-        const palavraSorteada = sortearPalavra(palavras); 
-        // Palavra aleatória
+        palavraSorteada = sortearPalavra(palavras); 
         console.log('Palavra sorteada:', palavraSorteada); 
     } else {
         console.error('Não foi possível carregar as palavras.');
@@ -163,5 +216,9 @@ document.addEventListener('DOMContentLoaded', function() {
     botaoSortear.addEventListener('click', atualizarPalavra); 
 });
 
-atualizarBlocosSelecionados();
-apenasLetras();
+let palavraSorteada = atualizarPalavra();
+document.addEventListener('DOMContentLoaded', async function() {
+    await carregarPalavras();
+    atualizarBlocosSelecionados();
+    apenasLetras();
+});
