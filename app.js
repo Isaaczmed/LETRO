@@ -86,6 +86,7 @@ function apenasLetras() {
                             primeiroInput.focus(); 
                         }
                     } else {
+                        linha.classList.remove('linha_selecionada'); 
                         atualizarBlocosSelecionados();
                     }
                 } else {
