@@ -117,7 +117,7 @@ input.letra::selection {
 /* Deixa o bloco bloqeuado e muda a cor para o bloco no qual a letra está na posição errada */
 .bloco_enviado_errado {
     border: none;
-    background-color: #b8c41d;
+    background-color: #bfc214;
     pointer-events: none;
 }
 
@@ -129,7 +129,7 @@ input.letra::selection {
 }
 
 .bloco_enviado_certo:hover {
-    background-color: #0d8b18;
+    background-color: #1ca728;
 }
 
 
