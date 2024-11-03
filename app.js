@@ -44,7 +44,6 @@ function selecionarLetra(num, lin) {
     }
 }
 
-// Função para gerar todas as combinações de acentos
 function gerarCombinacoes(palavra) {
     const combinacoes = [];
 
@@ -55,7 +54,7 @@ function gerarCombinacoes(palavra) {
         }
 
         const letra = resto[0];
-        const opcoes = acentos[letra] || [letra]; // Se a letra não tem acentos, use a letra normal
+        const opcoes = acentos[letra] || [letra]; 
 
         opcoes.forEach(opcao => {
             gerarCombinacao(prefixo + opcao, resto.slice(1));
@@ -120,13 +119,11 @@ function apenasLetras() {
                         palavraCompleta += letra.value.toLowerCase();
                     });
 
-                    // Verifica se a palavra completa existe no banco de palavras
                     if (palavrasValidas.includes(palavraCompleta) || palavrasValidas.includes(removerAcentos(palavraCompleta))) {
                         console.log(`Palavra válida: ${palavraCompleta}`);
                         avaliarPalavra(letras, palavraSorteada);
-                        trocarPalavraInput(linha, palavraCompleta); // Trocar palavra digitada pelo acentuada
+                        trocarPalavraInput(linha, palavraCompleta);
 
-                        // Adiciona a verificação de acerto
                         if (removerAcentos(palavraCompleta) === removerAcentos(palavraSorteada)) {
                             mostrarAviso(`Você acertou a palavra: ${palavraSorteada.toUpperCase()}`);
                             trocarPalavraInput(linha, palavraSorteada);
@@ -158,12 +155,10 @@ function apenasLetras() {
                             } else {
                                 linha.classList.remove('linha_selecionada');
                                 atualizarBlocosSelecionados();
-                                // Adiciona a mensagem caso todas as linhas sejam preenchidas sem acerto
                                 mostrarAviso(`Palavra: ${palavraSorteada}`);
                             }
                         }
                     } else {
-                        // Gerar combinações da palavra digitada e verificar
                         const combinacoesPossiveis = gerarCombinacoes(palavraCompleta);
                         const palavraValida = combinacoesPossiveis.find(comb => {
                             return palavrasValidas.includes(comb);
@@ -172,7 +167,7 @@ function apenasLetras() {
                         if (palavraValida) {
                             console.log(`Palavra sem acento válida: ${palavraCompleta}`);
                             avaliarPalavra(letras, palavraSorteada);
-                            trocarPalavraInput(linha, palavraValida); // Trocar palavra digitada pelo acentuada
+                            trocarPalavraInput(linha, palavraValida); 
 
                             if (removerAcentos(palavraCompleta) === removerAcentos(palavraSorteada)) {
                                 mostrarAviso(`Você acertou a palavra: ${palavraSorteada.toUpperCase()}`);
@@ -220,7 +215,6 @@ function apenasLetras() {
     });
 }
 
-// Função para trocar a palavra no input pelo acentuada
 function trocarPalavraInput(linhas, palavra) {
     const letras = linhas.querySelectorAll('.letra');
     letras.forEach((letra, index) => {
@@ -231,17 +225,16 @@ function trocarPalavraInput(linhas, palavra) {
 function avaliarPalavra(letras, palavraSorteada) {
     const palavraNormalizada = palavraSorteada.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
     const palavraArray = palavraSorteada.split('');
-    const letrasUsadas = Array(palavraArray.length).fill(false); // Para rastrear letras usadas na palavra sorteada
+    const letrasUsadas = Array(palavraArray.length).fill(false); 
 
     letras.forEach((letraInput, index) => {
         const letra = letraInput.value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
         const bloco = letraInput.parentElement;
 
-        // Verifica se a letra está na mesma posição
         if (letra === palavraNormalizada[index]) {
             bloco.classList.add('bloco_enviado_certo');
-            letraInput.value = palavraArray[index]; // Atualiza para a letra acentuada correta
-            letrasUsadas[index] = true; // Marca essa letra como usada
+            letraInput.value = palavraArray[index]; 
+            letrasUsadas[index] = true; 
         }
     });
 
@@ -249,23 +242,19 @@ function avaliarPalavra(letras, palavraSorteada) {
         const letra = letraInput.value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
         const bloco = letraInput.parentElement;
 
-        // Se a letra já está marcada como correta, pula para a próxima
         if (bloco.classList.contains('bloco_enviado_certo')) return;
 
-        // Verifica se a letra existe na palavra, mas em outra posição
         const posicaoAlternativa = palavraNormalizada.indexOf(letra);
 
-        // Somente adiciona 'bloco_enviado_errado' se a letra está em outra posição e não foi usada ainda
         if (posicaoAlternativa !== -1 && letrasUsadas[posicaoAlternativa] === false) {
             bloco.classList.add('bloco_enviado_errado');
-            letraInput.value = palavraArray[posicaoAlternativa]; // Atualiza para a letra acentuada correta
-            letrasUsadas[posicaoAlternativa] = true; // Marca essa posição como usada
+            letraInput.value = palavraArray[posicaoAlternativa]; 
+            letrasUsadas[posicaoAlternativa] = true; 
         } else {
             bloco.classList.add('bloco_enviado');
         }
     });
 
-    // Verifica se todos os blocos foram enviados como corretos
     const todosCorretos = Array.from(letras).every((letraInput, index) => {
         return letraInput.value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase() === palavraNormalizada[index];
     });
@@ -307,7 +296,7 @@ function atualizarBlocosSelecionados() {
     });
 }
 
-let palavrasValidas = []; // Armazena as palavras carregadas do JSON
+let palavrasValidas = []; 
 
 async function carregarPalavras() {
     try {
@@ -316,7 +305,7 @@ async function carregarPalavras() {
             throw new Error('Erro ao carregar o JSON');
         }
         const data = await response.json();
-        palavrasValidas = data.palavras.map(p => p.toLowerCase()); // Armazena todas as palavras em minúsculas
+        palavrasValidas = data.palavras.map(p => p.toLowerCase()); 
         return palavrasValidas;
     } catch (error) {
         console.error('Erro ao carregar o JSON:', error);
@@ -342,13 +331,13 @@ function mostrarAviso(mensagem) {
     const caixaAviso = document.getElementById('caixaAviso');
     caixaAviso.textContent = mensagem;
     caixaAviso.classList.add('mostrar');
-    caixaAviso.style.display = 'block'; // Certifique-se de que a caixa de aviso seja exibida
+    caixaAviso.style.display = 'block'; 
 }
 
 function esconderAviso() {
     const caixaAviso = document.getElementById('caixaAviso');
     caixaAviso.classList.remove('mostrar');
-    caixaAviso.style.display = 'none'; // Oculta a caixa de aviso
+    caixaAviso.style.display = 'none'; 
 }
 
 const acentos = {
