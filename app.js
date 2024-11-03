@@ -3,6 +3,7 @@ function selecionarBloco(num, lin) {
 
     if (linhaSelecionada && linhaSelecionada.classList.contains("linha_selecionada")) {
         let blocosNaLinha = linhaSelecionada.getElementsByClassName("bloco");
+        let letrasNaLinha = linhaSelecionada.getElementsByClassName("letra");
 
         Array.from(blocosNaLinha).forEach(bloco => {
             bloco.classList.remove("bloco_selecionado");
@@ -10,6 +11,35 @@ function selecionarBloco(num, lin) {
 
         if (blocosNaLinha[num - 1]) {
             blocosNaLinha[num - 1].classList.add("bloco_selecionado");
+        }
+
+        Array.from(letrasNaLinha).forEach(letra => {
+            letra.classList.remove("letra_selecionado");
+        });
+
+        if (letrasNaLinha[num - 1]) {
+            letrasNaLinha[num - 1].classList.add("letra_selecionado");
+        }
+
+        const input = linhaSelecionada.querySelector(`#letra${num}`);
+        if (input) {
+            input.focus(); 
+        }
+    }
+}
+
+function selecionarLetra(num, lin) {
+    let linhaSelecionada = document.getElementById("linha" + lin);
+
+    if (linhaSelecionada && linhaSelecionada.classList.contains("linha_selecionada")) {
+        let letrasNaLinha = linhaSelecionada.getElementsByClassName("letra");
+
+        Array.from(letrasNaLinha).forEach(letra => {
+            letra.classList.remove("letra_selecionado");
+        });
+
+        if (letrasNaLinha[num - 1]) {
+            letrasNaLinha[num - 1].classList.add("letra_selecionado");
         }
     }
 }

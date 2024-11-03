@@ -71,8 +71,8 @@ body {
     background: transparent; 
     border: none; 
     color: #FFFFFF; 
-    width: 38px; 
-    height: 38px; 
+    width: 60px; 
+    height: 60px; 
     font-size: 34px; 
     text-align: center; 
     outline: none; 
@@ -81,6 +81,24 @@ body {
     font-weight: bold;
     font-family: Verdana, sans-serif;
     cursor: pointer;
+    pointer-events: none;
+}
+
+.letra_selecionado {
+    background: transparent; 
+    border: none; 
+    color: #FFFFFF; 
+    width: 60px; 
+    height: 60px; 
+    font-size: 34px; 
+    text-align: center; 
+    outline: none; 
+    caret-color: transparent;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-family: Verdana, sans-serif;
+    cursor: pointer;
+    pointer-events: auto;
 }
 
 /* Muda a cor ao selecionar uma escrita no input */
