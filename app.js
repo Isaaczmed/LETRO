@@ -14,6 +14,32 @@ function selecionarBloco(num, lin) {
     }
 }
 
+// Função para gerar todas as combinações de acentos
+function gerarCombinacoes(palavra) {
+    const combinacoes = [];
+
+    function gerarCombinacao(prefixo, resto) {
+        if (resto.length === 0) {
+            combinacoes.push(prefixo);
+            return;
+        }
+
+        const letra = resto[0];
+        const opcoes = acentos[letra] || [letra]; // Se a letra não tem acentos, use a letra normal
+
+        opcoes.forEach(opcao => {
+            gerarCombinacao(prefixo + opcao, resto.slice(1));
+        });
+    }
+
+    gerarCombinacao('', palavra);
+    return combinacoes;
+}
+
+function removerAcentos(str) {
+    return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+
 function apenasLetras() {
     const inputs = document.querySelectorAll('.letra');
 
@@ -65,55 +91,117 @@ function apenasLetras() {
                     });
 
                     // Verifica se a palavra completa existe no banco de palavras
-                    if (palavrasValidas.includes(palavraCompleta)) {
+                    if (palavrasValidas.includes(palavraCompleta) || palavrasValidas.includes(removerAcentos(palavraCompleta))) {
                         console.log(`Palavra válida: ${palavraCompleta}`);
-                        
-                        // Envia a palavra e avalia
                         avaliarPalavra(letras, palavraSorteada);
+                        trocarPalavraInput(linha, palavraCompleta); // Trocar palavra digitada pelo acentuada
 
-                        const numeroLinhaAtual = parseInt(linha.id.replace('linha', ''));
-                        const proximaLinha = document.getElementById('linha' + (numeroLinhaAtual + 1));
-
-                        if (proximaLinha) {
-                            linha.classList.remove('linha_selecionada');
-                            proximaLinha.classList.add('linha_selecionada');
-
-                            const blocosNaProximaLinha = proximaLinha.querySelectorAll('.bloco');
-                            blocosNaProximaLinha.forEach(bloco => {
-                                bloco.classList.add('blocos_selecionados');
-                                atualizarBlocosSelecionados();
-                            });
-
-                            const blocosNaLinha = document.getElementById('linha' + numeroLinhaAtual).querySelectorAll('.bloco');
-                            blocosNaLinha.forEach(bloco => {
-                                bloco.classList.add('bloco_enviado');
-                                atualizarBlocosSelecionados();
-                            });
-
-                            const primeiroInput = proximaLinha.querySelector('.letra');
-                            if (primeiroInput) {
-                                primeiroInput.focus();
-                            }
+                        // Adiciona a verificação de acerto
+                        if (removerAcentos(palavraCompleta) === removerAcentos(palavraSorteada)) {
+                            mostrarAviso(`Você acertou a palavra: ${palavraSorteada.toUpperCase()}`);
+                            trocarPalavraInput(linha, palavraSorteada);
+                            return;
                         } else {
-                            linha.classList.remove('linha_selecionada');
-                            atualizarBlocosSelecionados();
+                            const numeroLinhaAtual = parseInt(linha.id.replace('linha', ''));
+                            const proximaLinha = document.getElementById('linha' + (numeroLinhaAtual + 1));
+
+                            if (proximaLinha) {
+                                linha.classList.remove('linha_selecionada');
+                                proximaLinha.classList.add('linha_selecionada');
+
+                                const blocosNaProximaLinha = proximaLinha.querySelectorAll('.bloco');
+                                blocosNaProximaLinha.forEach(bloco => {
+                                    bloco.classList.add('blocos_selecionados');
+                                    atualizarBlocosSelecionados();
+                                });
+
+                                const blocosNaLinha = document.getElementById('linha' + numeroLinhaAtual).querySelectorAll('.bloco');
+                                blocosNaLinha.forEach(bloco => {
+                                    bloco.classList.add('bloco_enviado');
+                                    atualizarBlocosSelecionados();
+                                });
+
+                                const primeiroInput = proximaLinha.querySelector('.letra');
+                                if (primeiroInput) {
+                                    primeiroInput.focus();
+                                }
+                            } else {
+                                linha.classList.remove('linha_selecionada');
+                                atualizarBlocosSelecionados();
+                                // Adiciona a mensagem caso todas as linhas sejam preenchidas sem acerto
+                                mostrarAviso(`Palavra: ${palavraSorteada}`);
+                            }
                         }
                     } else {
-                        console.log(`Palavra inválida: ${palavraCompleta}`);
+                        // Gerar combinações da palavra digitada e verificar
+                        const combinacoesPossiveis = gerarCombinacoes(palavraCompleta);
+                        const palavraValida = combinacoesPossiveis.find(comb => {
+                            return palavrasValidas.includes(comb);
+                        });
+
+                        if (palavraValida) {
+                            console.log(`Palavra sem acento válida: ${palavraCompleta}`);
+                            avaliarPalavra(letras, palavraSorteada);
+                            trocarPalavraInput(linha, palavraValida); // Trocar palavra digitada pelo acentuada
+
+                            if (removerAcentos(palavraCompleta) === removerAcentos(palavraSorteada)) {
+                                mostrarAviso(`Você acertou a palavra: ${palavraSorteada.toUpperCase()}`);
+                                trocarPalavraInput(linha, palavraSorteada);
+                                return;
+                            }
+
+                            const numeroLinhaAtual = parseInt(linha.id.replace('linha', ''));
+                            const proximaLinha = document.getElementById('linha' + (numeroLinhaAtual + 1));
+
+                            if (proximaLinha) {
+                                linha.classList.remove('linha_selecionada');
+                                proximaLinha.classList.add('linha_selecionada');
+
+                                const blocosNaProximaLinha = proximaLinha.querySelectorAll('.bloco');
+                                blocosNaProximaLinha.forEach(bloco => {
+                                    bloco.classList.add('blocos_selecionados');
+                                    atualizarBlocosSelecionados();
+                                });
+
+                                const blocosNaLinha = document.getElementById('linha' + numeroLinhaAtual).querySelectorAll('.bloco');
+                                blocosNaLinha.forEach(bloco => {
+                                    bloco.classList.add('bloco_enviado');
+                                    atualizarBlocosSelecionados();
+                                });
+
+                                const primeiroInput = proximaLinha.querySelector('.letra');
+                                if (primeiroInput) {
+                                    primeiroInput.focus();
+                                }
+                            } else {
+                                linha.classList.remove('linha_selecionada');
+                                atualizarBlocosSelecionados();
+                            }
+                        } else {
+                            console.log(`Palavra inválida: ${palavraCompleta}`);
+                            mostrarAviso("A palavra digitada não é válida");
+                        }
                     }
                 } else {
-                    alert('Preencha todas as letras antes de enviar.');
+                    mostrarAviso('Preencha todas as letras antes de enviar.');
                 }
             }
         });
     });
 }
 
+// Função para trocar a palavra no input pelo acentuada
+function trocarPalavraInput(linhas, palavra) {
+    const letras = linhas.querySelectorAll('.letra');
+    letras.forEach((letra, index) => {
+        letra.value = palavra[index];
+    });
+}
+
 function avaliarPalavra(letras, palavraSorteada) {
-    // Normaliza a palavra sorteada para remover acentuações e define arrays auxiliares
     const palavraNormalizada = palavraSorteada.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
     const palavraArray = palavraSorteada.split('');
-    const letrasUsadas = Array(palavraArray.length).fill(false);  // Para rastrear letras usadas na palavra sorteada
+    const letrasUsadas = Array(palavraArray.length).fill(false); // Para rastrear letras usadas na palavra sorteada
 
     letras.forEach((letraInput, index) => {
         const letra = letraInput.value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
@@ -122,8 +210,8 @@ function avaliarPalavra(letras, palavraSorteada) {
         // Verifica se a letra está na mesma posição
         if (letra === palavraNormalizada[index]) {
             bloco.classList.add('bloco_enviado_certo');
-            letraInput.value = palavraArray[index];  // Atualiza para a letra acentuada correta
-            letrasUsadas[index] = true;  // Marca essa letra como usada
+            letraInput.value = palavraArray[index]; // Atualiza para a letra acentuada correta
+            letrasUsadas[index] = true; // Marca essa letra como usada
         }
     });
 
@@ -140,12 +228,21 @@ function avaliarPalavra(letras, palavraSorteada) {
         // Somente adiciona 'bloco_enviado_errado' se a letra está em outra posição e não foi usada ainda
         if (posicaoAlternativa !== -1 && letrasUsadas[posicaoAlternativa] === false) {
             bloco.classList.add('bloco_enviado_errado');
-            letraInput.value = palavraArray[posicaoAlternativa];  // Atualiza para a letra acentuada correta
-            letrasUsadas[posicaoAlternativa] = true;  // Marca essa posição como usada
+            letraInput.value = palavraArray[posicaoAlternativa]; // Atualiza para a letra acentuada correta
+            letrasUsadas[posicaoAlternativa] = true; // Marca essa posição como usada
         } else {
             bloco.classList.add('bloco_enviado');
         }
     });
+
+    // Verifica se todos os blocos foram enviados como corretos
+    const todosCorretos = Array.from(letras).every((letraInput, index) => {
+        return letraInput.value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase() === palavraNormalizada[index];
+    });
+
+    if (todosCorretos) {
+        mostrarAviso(`Você acertou a palavra: ${palavraSorteada.toUpperCase()}`);
+    }
 }
 
 function linhaSelecionada() {
@@ -210,6 +307,29 @@ async function atualizarPalavra() {
         console.error('Não foi possível carregar as palavras.');
     }
 }
+
+function mostrarAviso(mensagem) {
+    const caixaAviso = document.getElementById('caixaAviso');
+    caixaAviso.textContent = mensagem;
+    caixaAviso.classList.add('mostrar');
+    caixaAviso.style.display = 'block'; // Certifique-se de que a caixa de aviso seja exibida
+}
+
+function esconderAviso() {
+    const caixaAviso = document.getElementById('caixaAviso');
+    caixaAviso.classList.remove('mostrar');
+    caixaAviso.style.display = 'none'; // Oculta a caixa de aviso
+}
+
+const acentos = {
+    a: ['a', 'á', 'à', 'â', 'ã', 'ä', 'å'],
+    e: ['e', 'é', 'è', 'ê', 'ë'],
+    i: ['i', 'í', 'ì', 'î', 'ï'],
+    o: ['o', 'ó', 'ò', 'ô', 'õ', 'ö'],
+    u: ['u', 'ú', 'ù', 'û', 'ü'],
+    c: ['c', 'ç'],
+    n: ['n', 'ñ']
+};
 
 document.addEventListener('DOMContentLoaded', function() {
     const botaoSortear = document.getElementById('botaoSortear');

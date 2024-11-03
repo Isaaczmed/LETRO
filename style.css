@@ -13,10 +13,13 @@ body {
     align-items: center;
     justify-content: center;
     display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Preenche a altura da tela */
   }
 
 /* Div que armazena as outras divs com os blocos e linhas */
 #tabuleiro {
+    margin-top: 20px;
     display: flex;
     flex-direction: column;
     gap: 5px;
@@ -105,6 +108,30 @@ input.letra::selection {
     border: none;
     background-color: #0d8b18;
     pointer-events: none;
+}
+
+.aviso {
+    background-color: #3f3659;
+    color: #FFFFFF;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    max-width: 300px; /* Limita a largura da caixa de aviso */
+    opacity: 0; /* Inicialmente invisível */
+    transition: opacity 0.3s ease;
+    position: absolute; /* Fixar a posição */
+    top: 150px; /* Ajuste para mover a caixa mais para baixo */
+    left: 50%; /* Centraliza horizontalmente */
+    transform: translateX(-50%); /* Ajusta o posicionamento para o centro */
+    display: none; /* Inicialmente oculto */
+    font-family: Verdana, sans-serif;
+}
+
+.aviso.mostrar {
+    display: block; /* Mostra a caixa de aviso */
+    opacity: 1; /* Torna a caixa de aviso visível */
 }
 
 
