@@ -86,7 +86,7 @@ function apenasLetras() {
                             primeiroInput.focus(); 
                         }
                     } else {
-                        console.log("Não há mais linhas para passar.");
+                        atualizarBlocosSelecionados();
                     }
                 } else {
                     alert('Preencha todas as letras antes de enviar.');
