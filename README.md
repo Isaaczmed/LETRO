@@ -1,7 +1,7 @@
 <h1>LETRO</h1>
 
 <h2>📌 Sobre</h2>
-<p>Projeto no qual estou fazendo um jogo igual ao WORDLE, usando minhas técnicas aprendidas da faculdade e na Alura.</p>
+<p>Projeto no qual estou fazendo um jogo baseado WORDLE e TERMO, usando as técnicas aprendidas da faculdade e na Alura.</p>
 
 ## 🚀 Tecnologias
 <div>
