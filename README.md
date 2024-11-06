@@ -9,7 +9,7 @@ Aplicação web baseada no WORDLE com JavaScript.
 
 O objetivo do jogo é adivinhar a palavra correta com base nas dicas fornecidas. LETRO traz uma experiência interativa e desafiadora, testando o vocabulário e a lógica do jogador ao tentar decifrar a palavra secreta.
 
-(https://imgur.com/jVJvSgF.gif)
+![](https://imgur.com/jVJvSgF.gif)
 
 ## 🚀 Tecnologias
 
