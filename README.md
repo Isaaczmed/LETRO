@@ -1,5 +1,5 @@
 
-![Descricao da sua imagem](https://imgur.com/a/gmV2YdR.if)
+![Descricao da sua imagem](https://imgur.com/a/gmV2YdR.gif)
 
 # LETRO
 
